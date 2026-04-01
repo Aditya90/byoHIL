@@ -4,6 +4,53 @@
 ### Overview
 This document outlines a scalable, fully open-source, self-hosted software architecture for managing Hardware-in-the-Loop test benches. The design separates concerns into a centralized control plane (the manager) and distributed data planes (the test nodes), allowing for dynamic scaling, real-time monitoring, and remote access across geographically distributed networks.
 
+### High-Level Architecture Diagram
+
+```mermaid
+flowchart LR
+    subgraph Users
+        Dev[Developer]
+    end
+
+    subgraph Client Tools
+        CLI(hilcli CLI - Go)
+        WebUI(Web Dashboard - Next.js)
+    end
+
+    subgraph Central Control Plane
+        Server(Management Server - Go)
+        DB[(PostgreSQL)]
+    end
+
+    subgraph HIL Test Bench Node
+        Agent(Python Node Agent)
+        HardwareControl(Power Mgmt - PDU/Relay)
+        DUT(Device Under Test)
+    end
+
+    %% User Interactions
+    Dev -->|Runs| CLI
+    Dev -->|Views| WebUI
+
+    %% Client to Central Server
+    CLI -->|Queries API / Port| Server
+    WebUI <-->|WebSockets / REST| Server
+    Server <-->|Store/Retrieve| DB
+
+    %% Node to Central Server
+    Agent -->|1. Auto-Discovery & Register| Server
+    Agent -->|2. Persistent Reverse SSH| Server
+    Agent <-->|3. WebSockets Telemetry/Logs| Server
+
+    %% CLI True SSH Path
+    CLI -.->|ProxyJump via Server| Agent
+
+    %% Node Internal Hardware interaction
+    Agent -->|Control/Flash/Test| DUT
+    Agent -->|Power On/Off| HardwareControl
+    HardwareControl -.->|Power Supply| DUT
+```
+
 ---
 
 ### 1. Centralized Management Server (Control Plane)

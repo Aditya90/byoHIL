@@ -96,3 +96,7 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 - [ ] **Remote Test Execution Initiation**
   - Build endpoints and CLI wrappers allowing users to dynamically trigger specific Python test scripts on remote target nodes (e.g., `hilcli run <test_script> --target mock-bench-alpha`).
   - Securely stream the remote test execution logs and statuses back to the CLI or visual dashboard.
+
+- [ ] **Interactive Node API Documentation (UI)**
+  - Expand the React Web Dashboard to allow clicking on individual node cards.
+  - Dynamically query and display a comprehensive list of all exposed hardware capabilities, available commands, and RPC endpoints executing on that specific physical test bench.

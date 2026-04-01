@@ -8,19 +8,17 @@ import os
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Core Central Server Configuration
 CENTRAL_SERVER_URL = os.environ.get("HIL_SERVER_URL", "http://localhost:8080")
 CENTRAL_SSH_HOST = os.environ.get("HIL_SSH_HOST", "localhost")
+
+# Note for Local Testing vs Production:
+# Locally, os.getlogin() allows testing reverse tunneling natively without setting up new users.
+# In production, this will be explicitly configured (e.g. HIL_SSH_USER=hiluser).
 CENTRAL_SSH_USER = os.environ.get("HIL_SSH_USER", os.getlogin())
 
-# Mock Relay Plugin representing Phase 4 hardware integration
-class MockRelay:
-    def cycle_power(self, dut_name):
-        logging.info(f"[MOCK_RELAY]: Power cycling DUT for {dut_name}...")
-        time.sleep(1)
-        logging.info(f"[MOCK_RELAY]: Successfully cycled power.")
-
 def register_node(hostname):
-    """Registers the node with the central Go backend and returns the assigned port."""
+    """Registers the physical node with the central Go backend and returns the assigned port."""
     url = f"{CENTRAL_SERVER_URL}/api/v1/nodes/register"
     payload = {"hostname": hostname}
     
@@ -59,27 +57,26 @@ def start_reverse_tunnel(assigned_port):
     logging.info(f"Executing: {' '.join(cmd)}")
     try:
         subprocess.run(cmd, check=True)
-        logging.info(f"Tunnel initiated! The Go Central Server can now securely route traffic back down through port {assigned_port}.")
+        logging.info(f"SSH Tunnel initiated! The Go Central Server can now securely route traffic back down through port {assigned_port}.")
     except FileNotFoundError:
-        logging.error("CRITICAL: 'autossh' is not installed. Please install it (e.g., 'brew install autossh').")
+        logging.error("CRITICAL: 'autossh' is not installed. Please install it (e.g., 'brew install autossh' or 'apt install autossh').")
         exit(1)
     except subprocess.CalledProcessError as e:
         logging.error(f"Failed to start autossh tunnel. Make sure passwordless SSH is configured for {CENTRAL_SSH_USER}@{CENTRAL_SSH_HOST}. Error: {e}")
 
-def start_command_listener():
-    """A loop mimicking Phase 4's RPC/WebSocket command listener."""
-    logging.info("Agent is now running in the foreground, awaiting remote commands from the central server...")
-    relay = MockRelay()
+def keep_alive():
+    """Maintains the python process. Future phases will implement Power Control WebSockets here."""
+    logging.info("Agent is fully operational! Remote SSH access is active.")
     try:
         while True:
-            # We will implement real WebSockets here in Phase 4.
-            time.sleep(10)
+            # Keeps the daemon alive so systemd doesn't restart it
+            time.sleep(60)
     except KeyboardInterrupt:
         logging.info("Agent shutting down.")
 
 def main():
-    parser = argparse.ArgumentParser(description="HIL Mock Node Agent")
-    parser.add_argument("--name", type=str, default=socket.gethostname(), help="Mock hostname for the bench")
+    parser = argparse.ArgumentParser(description="HIL Physical Node Agent")
+    parser.add_argument("--name", type=str, default=socket.gethostname(), help="Hostname for the bench")
     args = parser.parse_args()
 
     # 1. Boot up and register with the Central API
@@ -89,8 +86,8 @@ def main():
         # 2. Establish persistent, self-healing reverse tunnel via autossh
         start_reverse_tunnel(assigned_port)
         
-        # 3. Enter main event loop (mocking Phase 4)
-        start_command_listener()
+        # 3. Enter main event loop (Future: Power control listening)
+        keep_alive()
 
 if __name__ == "__main__":
     main()

@@ -13,16 +13,16 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 ## Phase 1: Foundation – Go Backend & Database
 *Goal: Establish the central registry that manages the node topology and port assignments.*
 
-- [ ] **1.1 Database Setup**
-  - [ ] Initialize `docker-compose.yml` with a PostgreSQL service.
-  - [ ] **Test/Milestone:** Run `docker-compose up` and successfully connect to the database locally using `psql`, verifying the container is healthy.
+- [x] **1.1 Database Setup**
+  - [x] Initialize `docker-compose.yml` with a PostgreSQL service.
+  - [x] **Test/Milestone:** Run `docker-compose up` and successfully connect to the database locally using `psql`, verifying the container is healthy.
 
-- [ ] **1.2 Go Server Initialization**
-  - [ ] Run `go mod init backend`.
-  - [ ] Setup a fast web framework (e.g., Fiber or Gin) and Postgres driver (`gorm`).
-  - [ ] Implement the Database Models (`Node`, `PortAssignment`).
-  - [ ] Create `/api/v1/nodes/register` endpoint (handles MAC address and capability payloads).
-  - [ ] **Test/Milestone:** Send a manual JSON payload via `curl` to the registration endpoint. Query Postgres to verify the data was saved and an SSH port was uniquely assigned.
+- [x] **1.2 Go Server Initialization**
+  - [x] Run `go mod init backend`.
+  - [x] Setup a fast web framework (e.g., Fiber or Gin) and Postgres driver (`gorm`).
+  - [x] Implement the Database Models (`Node`, `PortAssignment`).
+  - [x] Create `/api/v1/nodes/register` endpoint (handles MAC address and capability payloads).
+  - [x] **Test/Milestone:** Send a manual JSON payload via `curl` to the registration endpoint. Query Postgres to verify the data was saved and an SSH port was uniquely assigned.
 
 ## Phase 2: Python Agent & Connectivity
 *Goal: Connect a physical node to the central registry and establish the reverse tunnel.*

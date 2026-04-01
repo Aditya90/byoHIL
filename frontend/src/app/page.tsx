@@ -18,7 +18,12 @@ export default function Home() {
   useEffect(() => {
     const fetchNodes = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/v1/nodes");
+        const hostname = typeof window !== "undefined" ? window.location.hostname : "localhost";
+        const baseURL = (hostname !== "localhost" && hostname !== "127.0.0.1") 
+          ? `http://${hostname}:8080`
+          : "http://127.0.0.1:8080";
+
+        const res = await fetch(`${baseURL}/api/v1/nodes`);
         if (res.ok) {
           const data = await res.json();
           setNodes(data);

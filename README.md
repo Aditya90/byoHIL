@@ -42,5 +42,8 @@ cd backend && go run main.go
 # 3. Start the Next.js Web Dashboard (in a new terminal)
 cd frontend
 npm install
-npm run dev
 ```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

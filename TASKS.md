@@ -4,7 +4,7 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 
 ## 💻 Local Testing Strategy
 **All components (Backend, Database, Agent, CLI, and Dashboard) are designed to be run and tested simultaneously on a single development machine (e.g., your laptop) before deploying to physical Linux test benches.**
-* **Mock Nodes**: You can simulate multiple benches by running multiple instances of the Python agent locally (e.g., `python agent.py --name mock-bench-01`).
+* **Mock Nodes**: You can simulate multiple benches by running multiple instances of the Python agent locally (e.g., `python mock_agent.py --name mock-bench-01`).
 * **Mock Hardware**: The Python agent uses a `MockRelay` plugin that logs hardware commands to the terminal (e.g., `[MOCK_RELAY]: Power Cycled DUT`) instead of requiring physical USB/Serial controllers.
 * **Local Tunneling**: The `autossh` daemon and `hilcli connect` will route locally over `localhost` to prove the networking topology works end-to-end.
 

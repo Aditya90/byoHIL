@@ -40,11 +40,13 @@ curl -X POST -H 'Content-Type: application/json' -d '{"username": "aditya", "act
 
 You will run a mock node agent on your laptop to verify the registration protocol and reverse SSH implementation.
 
-**Step 1:** In a new terminal tab, run the python script:
+**Step 1:** In a new terminal tab, initialize a virtual environment and run the mock script:
 ```bash
 cd agent
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-python agent.py --name mock-bench-phase2
+python mock_agent.py --name mock-bench-phase2
 ```
 *Expected Output:* The python log will show it registered with the Go server, found its Assigned SSH Port (e.g., 22002), and successfully initiated an `autossh` tunnel!
 

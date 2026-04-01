@@ -10,6 +10,7 @@ To run the entire infrastructure stack locally for development, you will need:
 - **Go 1.20+**: To compile and run the central backend API server and the `hilcli` tool.
 - **Python 3.9+**: To run the mock HIL node agent scripts locally.
 - **Node.js**: *(Eventually)* For running the Next.js React dashboard.
+- **OpenSSH Daemon (Remote Login)**: Since testing locally treats your laptop as both the Server and the HIL Node, you must enable "Remote Login" under your macOS Sharing settings, and ensure your own public SSH key is appended to your `~/.ssh/authorized_keys` file to support passwordless `autossh` routing.
 
 ### Production Deployment (Geographically Distributed)
 - **Central Management Server**: A Linux VPS with Docker (for PostgreSQL) and a static public IP address. It will host the compiled Go binary and terminate all reverse SSH tunnels.

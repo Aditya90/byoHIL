@@ -40,6 +40,15 @@ curl -X POST -H 'Content-Type: application/json' -d '{"username": "aditya", "act
 
 You will run a mock node agent on your laptop to verify the registration protocol and reverse SSH implementation.
 
+**Prerequisite (Local SSH Setup):**
+Because the python script relies on `autossh` using your current Mac Username to tunnel back into your *own* Mac (simulating a remote connection), you must have two things configured locally:
+1. **Remote Login** enabled in macOS (`System Settings -> General -> Sharing`).
+2. **Passwordless SSH** configured for your own account. Run the following command once to authorize yourself to SSH into your own machine without a password:
+   ```bash
+   cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+   chmod 600 ~/.ssh/authorized_keys
+   ```
+
 **Step 1:** In a new terminal tab, initialize a virtual environment and run the agent script:
 ```bash
 cd agent
@@ -49,8 +58,6 @@ pip install -r requirements.txt
 python node_agent.py --name mock-bench-phase2
 ```
 *Expected Output:* The python log will show it registered with the Go server, found its Assigned SSH Port (e.g., 22002), and successfully initiated an `autossh` tunnel!
-
-> **Note:** Because the script uses your current username to SSH into your own laptop to test the tunnel locally, you must have "Remote Login" enabled in macOS `System Settings -> General -> Sharing` and optionally have run `ssh-copy-id localhost` to enable passwordless auth.
 
 **Step 2:** Verify the reverse tunnel is active:
 In another tab, run:

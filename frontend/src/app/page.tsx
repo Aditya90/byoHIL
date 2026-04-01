@@ -17,12 +17,12 @@ export default function Home() {
   useEffect(() => {
     const fetchNodes = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/v1/nodes");
+        const res = await fetch("http://127.0.0.1:8080/api/v1/nodes");
         if (res.ok) {
           const data = await res.json();
           setNodes(data);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Failed to fetch nodes", err);
       } finally {
         setLoading(false);

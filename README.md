@@ -7,12 +7,12 @@ A scalable, fully open-source, self-hosted software architecture for managing ge
 ### 🌐 Full Stack Integration
 This demo showcases the complete workflow: from registration of a mock HIL node to visualization in the Next.js dashboard and real-time status updates through the Go backend.
 
-![Full Stack Integration](demos/full_stack_demo.mp4)
+https://github.com/user-attachments/assets/2b9093e1-5dbd-4e1b-abd4-ca2e7357e476
 
 ### 💻 CLI Access & Connectivity
 See the `hilcli` tool in action, demonstrating how developers can interact with remote test benches and initiate secure reverse-proxy connections.
 
-![CLI Access & Connectivity](demos/hilclidemo.mp4)
+https://github.com/user-attachments/assets/cac4de75-2a25-4507-bc0c-6ae1ac58c508
 
 ## 📋 Prerequisites
 

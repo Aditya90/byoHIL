@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: hil-postgres
+    environment:
+      POSTGRES_USER: hiluser
+      POSTGRES_PASSWORD: hilpassword
+      POSTGRES_DB: hildb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

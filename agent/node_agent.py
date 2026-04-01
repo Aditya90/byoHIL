@@ -5,6 +5,7 @@ import time
 import requests
 import subprocess
 import os
+import getpass
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -13,9 +14,9 @@ CENTRAL_SERVER_URL = os.environ.get("HIL_SERVER_URL", "http://localhost:8080")
 CENTRAL_SSH_HOST = os.environ.get("HIL_SSH_HOST", "localhost")
 
 # Note for Local Testing vs Production:
-# Locally, os.getlogin() allows testing reverse tunneling natively without setting up new users.
+# Locally, getpass.getuser() allows testing reverse tunneling natively without setting up new users.
 # In production, this will be explicitly configured (e.g. HIL_SSH_USER=hiluser).
-CENTRAL_SSH_USER = os.environ.get("HIL_SSH_USER", os.getlogin())
+CENTRAL_SSH_USER = os.environ.get("HIL_SSH_USER", getpass.getuser())
 
 def register_node(hostname):
     """Registers the physical node with the central Go backend and returns the assigned port."""

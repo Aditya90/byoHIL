@@ -53,27 +53,37 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
   - [x] Make the Go CLI fetch the port assignment from the API, construct the `ProxyJump` arguments, and invoke `os/exec` to run native ssh.
   - [x] **Test/Milestone:** Run `hilcli connect <your-laptop-hostname>`. Verify the CLI drops you instantly into an SSH shell on the target without ever showing you the port number.
 
-## Phase 4: Power Control & Script Execution
-*Goal: Enable remote hardware reset functionality triggered globally.*
-
-- [ ] **4.1 Hardware Abstraction (Node Agent)**
-  - [ ] Add a mock hardware relay class in the Python agent (which writes "Relay ON" to a file instead of engaging actual USB hardware).
-  - [ ] Expose an internal RPC or WebSocket listener to capture commands from the central server.
-  - [ ] **Test/Milestone:** Inject a manual command from the Go backend into the stream. Verify the Python agent receives it and executes the mock file write.
-
-- [ ] **4.2 CLI Power Management**
-  - [ ] Implement `hilcli power <host> [on|off|cycle]`.
-  - [ ] Process: CLI -> Go Backend API -> Python Agent -> Relay.
-  - [ ] **Test/Milestone:** Run the full end-to-end stack: Trigger the CLI command and verify the final hardware mock script fires exactly as intended.
-
-## Phase 5: Web Dashboard
+## Phase 4: Web Dashboard
 *Goal: Provide a bird's eye visual representation of all active benches.*
 
-- [ ] **5.1 React Foundation**
+- [ ] **4.1 React Foundation**
   - [ ] Initialize Next.js / TypeScript project with TailwindCSS.
   - [ ] Build a component grid representing "Active", "In-Use", and "Offline" nodes.
   - [ ] **Test/Milestone:** Navigate to `localhost:3000` inside your browser. Verify the React grid populates with the same live DB data as `hilcli list`.
 
-- [ ] **5.2 Real-Time Updates**
+- [ ] **4.2 Real-Time Updates**
   - [ ] Add WebSockets from the Go Server to the React frontend.
-  - [ ] **Test/Milestone:** Keep the browser open. Stop the Python agent script. Watch the Next.js UI automatically change the node status from "Online" to "Offline" within 5 seconds without refreshing the page.
+  - [ ] **Test/Milestone:** Keep the browser open. Stop the Python node agent script. Watch the Next.js UI automatically change the node status from "Online" to "Offline" within 5 seconds without refreshing the page.
+
+---
+
+## 🚀 Future Features & Post-MVP Roadmap
+
+- [ ] **Power Control & Hardware Relays**
+  - *Goal: Enable remote hardware reset functionality triggered globally.*
+  - **Hardware Abstraction (Node Agent)**
+    - Add a mock hardware relay class in the Python agent (which writes "Relay ON" to a file instead of engaging actual USB hardware).
+    - Expose an internal RPC or WebSocket listener to capture commands from the central server.
+    - **Test/Milestone:** Inject a manual command from the Go backend into the stream. Verify the Python agent receives it and executes the mock file write.
+  - **CLI Power Management**
+    - Implement `hilcli power <host> [on|off|cycle]`.
+    - Process: CLI -> Go Backend API -> Python Agent -> Relay.
+    - **Test/Milestone:** Run the full end-to-end stack: Trigger the CLI command and verify the final hardware mock script fires exactly as intended.
+
+- [ ] **Cross-Platform CLI Distribution**
+  - Automate the compilation of `hilcli` into standalone executables targeting diverse operating systems (Ubuntu/Linux, macOS, and Windows) using Go's cross-compilation matrix.
+  - Provide direct artifact downloads for developer workstations.
+
+- [ ] **Remote Test Execution Initiation**
+  - Build endpoints and CLI wrappers allowing users to dynamically trigger specific Python test scripts on remote target nodes (e.g., `hilcli run <test_script> --target mock-bench-alpha`).
+  - Securely stream the remote test execution logs and statuses back to the CLI or visual dashboard.

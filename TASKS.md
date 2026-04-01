@@ -61,13 +61,14 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
   - [x] Build a component grid representing "Active", "In-Use", and "Offline" nodes.
   - [x] **Test/Milestone:** Navigate to `localhost:3000` inside your browser. Verify the React grid populates with the same live DB data as `hilcli list`.
 
-- [ ] **4.2 Real-Time Updates**
-  - [ ] Add WebSockets from the Go Server to the React frontend.
-  - [ ] **Test/Milestone:** Keep the browser open. Stop the Python node agent script. Watch the Next.js UI automatically change the node status from "Online" to "Offline" within 5 seconds without refreshing the page.
-
 ---
 
 ## 🚀 Future Features & Post-MVP Roadmap
+
+- [ ] **Real-Time WebSocket Updates & Agent Heartbeats**
+  - Modify the Python Agent to transmit a live HTTP heartbeat pulse every 5 seconds.
+  - Implement a persistent Go `goroutine` sweeper that automatically flips decaying nodes to an "offline" status.
+  - Upgrade the React Dashboard polling loop into a true bidirectional WebSocket pipeline ensuring sub-millisecond UI updates.
 
 - [ ] **Power Control & Hardware Relays**
   - *Goal: Enable remote hardware reset functionality triggered globally.*

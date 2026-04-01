@@ -29,15 +29,15 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 ## Phase 2: Python Agent & Connectivity
 *Goal: Connect a physical node to the central registry and establish the reverse tunnel.*
 
-- [ ] **2.1 Python Agent Skeleton**
-  - [ ] Setup Python environment (`requirements.txt` or `pyproject.toml`).
-  - [ ] Write a script that dynamically fetches the local host's hardware ID/name.
-  - [ ] Issue an HTTP POST to the Go Server's `/register` endpoint on startup.
-  - [ ] **Test/Milestone:** Run the Python script on your laptop. Check the Go Backend's logs to see the incoming connection, and check the DB for the new entry.
+- [x] **2.1 Python Agent Skeleton**
+  - [x] Setup Python environment (`requirements.txt` or `pyproject.toml`).
+  - [x] Write a script that dynamically fetches the local host's hardware ID/name.
+  - [x] Issue an HTTP POST to the Go Server's `/register` endpoint on startup.
+  - [x] **Test/Milestone:** Run the Python script on your laptop. Check the Go Backend's logs to see the incoming connection, and check the DB for the new entry.
 
-- [ ] **2.2 Reverse SSH Implementation**
-  - [ ] Python agent parses the `assigned_ssh_port` from the Go server's response.
-  - [ ] Python agent uses the `subprocess` module to launch and monitor `autossh` (Targeting the central server).
+- [x] **2.2 Reverse SSH Implementation**
+  - [x] Python agent parses the `assigned_ssh_port` from the Go server's response.
+  - [x] Python agent uses the `subprocess` module to launch and monitor `autossh` (Targeting the central server).
   - [ ] **Test/Milestone:** Start the server and the agent side-by-side. Run `lsof -i -P -n | grep LISTEN` on the server to prove the reverse SSH port (e.g., `22005`) has actually opened. Use a normal SSH test (`ssh -p 22005 localhost`) to verify the tunnel drops you into the agent machine.
 
 ## Phase 3: The CLI Wrapper (`hilcli`)

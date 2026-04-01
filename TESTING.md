@@ -37,9 +37,25 @@ curl -X POST -H 'Content-Type: application/json' -d '{"username": "aditya", "act
 ---
 
 ## Phase 2: Testing the Node Agent
-*(Implementation in progress...)*
 
-Eventually, you will be able to start multiple mock nodes by running multiple instances of the Python script in separate terminal tabs. The agents will automatically register with `localhost:8080`, receive their port assignment, and execute an `autossh` loop back to your laptop.
+You will run a mock node agent on your laptop to verify the registration protocol and reverse SSH implementation.
+
+**Step 1:** In a new terminal tab, run the python script:
+```bash
+cd agent
+pip install -r requirements.txt
+python agent.py --name mock-bench-phase2
+```
+*Expected Output:* The python log will show it registered with the Go server, found its Assigned SSH Port (e.g., 22002), and successfully initiated an `autossh` tunnel!
+
+> **Note:** Because the script uses your current username to SSH into your own laptop to test the tunnel locally, you must have "Remote Login" enabled in macOS `System Settings -> General -> Sharing` and optionally have run `ssh-copy-id localhost` to enable passwordless auth.
+
+**Step 2:** Verify the reverse tunnel is active:
+In another tab, run:
+```bash
+lsof -i -P -n | grep LISTEN | grep 2200
+```
+*Expected Output:* You should see `IPv4` and `IPv6` listening ports for the port assigned to you by the Python script.
 
 ## Phase 3: Testing the CLI
 *(Implementation in progress...)*

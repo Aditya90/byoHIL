@@ -12,18 +12,23 @@ interface NodeResponse {
 export default function Home() {
   const [nodes, setNodes] = useState<NodeResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Poll the Go Central Server for nodes
   useEffect(() => {
     const fetchNodes = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8080/api/v1/nodes");
+        const res = await fetch("http://localhost:8080/api/v1/nodes");
         if (res.ok) {
           const data = await res.json();
           setNodes(data);
+          setErrorMsg(null);
+        } else {
+          setErrorMsg(`HTTP Error: ${res.status} ${res.statusText}`);
         }
       } catch (err: any) {
         console.error("Failed to fetch nodes", err);
+        setErrorMsg(`Fetch Error: ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -45,6 +50,14 @@ export default function Home() {
           Monitor your active geographically distributed Hardware-in-the-Loop test bench topologies in real-time.
         </p>
       </header>
+
+      {errorMsg && (
+        <div className="mb-8 p-4 bg-red-900/40 border border-red-500 rounded-lg text-red-200 font-mono">
+          ⚠️ {errorMsg}
+          <br />
+          Ensure the Go backend is running and CORS is correctly allowing origin {typeof window !== "undefined" ? window.location.origin : "unknown"}.
+        </div>
+      )}
 
       {loading ? (
         <div className="flex animate-pulse space-x-6">

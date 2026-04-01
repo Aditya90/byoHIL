@@ -43,15 +43,15 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 ## Phase 3: The CLI Wrapper (`hilcli`)
 *Goal: Abstract the reverse SSH tunnel complexity away from the developer.*
 
-- [ ] **3.1 CLI Initialization**
-  - [ ] Initialize `hilcli` Go project using Cobra for routing commands.
-  - [ ] Build `hilcli list` mapping to the Go Backend API.
-  - [ ] **Test/Milestone:** Run `go run main.go list` and verify it renders a clean CLI table showing the Python agent from Phase 2.
+- [x] **3.1 CLI Initialization**
+  - [x] Initialize `hilcli` Go project using Cobra for routing commands.
+  - [x] Build `hilcli list` mapping to the Go Backend API.
+  - [x] **Test/Milestone:** Run `go run main.go list` and verify it renders a clean CLI table showing the Python agent from Phase 2.
 
-- [ ] **3.2 Seamless SSH Invocation**
-  - [ ] Implement `hilcli connect <hostname>`.
-  - [ ] Make the Go CLI fetch the port assignment from the API, construct the `ProxyJump` arguments, and invoke `os/exec` to run native ssh.
-  - [ ] **Test/Milestone:** Run `hilcli connect <your-laptop-hostname>`. Verify the CLI drops you instantly into an SSH shell on the target without ever showing you the port number.
+- [x] **3.2 Seamless SSH Invocation**
+  - [x] Implement `hilcli connect <hostname>`.
+  - [x] Make the Go CLI fetch the port assignment from the API, construct the `ProxyJump` arguments, and invoke `os/exec` to run native ssh.
+  - [x] **Test/Milestone:** Run `hilcli connect <your-laptop-hostname>`. Verify the CLI drops you instantly into an SSH shell on the target without ever showing you the port number.
 
 ## Phase 4: Power Control & Script Execution
 *Goal: Enable remote hardware reset functionality triggered globally.*

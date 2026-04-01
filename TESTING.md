@@ -67,6 +67,22 @@ lsof -i -P -n | grep LISTEN | grep 2200
 *Expected Output:* You should see `IPv4` and `IPv6` listening ports for the port assigned to you by the Python script.
 
 ## Phase 3: Testing the CLI
-*(Implementation in progress...)*
 
-You will use `hilcli list` and `hilcli connect <hostname>` directly from your terminal. The CLI will abstract away the port logic and transparently drop you into an interactive session over the reverse SSH tunnel.
+**Step 1:** Build the CLI tool:
+```bash
+cd cli
+go build -o hilcli .
+```
+
+**Step 2:** Query the Benches using the CLI Table:
+```bash
+./hilcli list
+```
+*(You should see a clean Terminal visualization of the PostgreSQL database, showing any active agent machines!)*
+
+**Step 3:** Simulate the Developer Experience
+If your Python mock agent is still running and listening from Phase 2, try to use the CLI abstraction wrapper to transparently reverse-jump into it:
+```bash
+./hilcli connect mock-bench-phase2
+```
+> **Note:** Just like the Phase 2 Testing, this will proxy-jump through your `localhost` back into yourself. Once inside the remote terminal, type `exit` to end the test session!

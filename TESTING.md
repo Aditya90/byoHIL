@@ -22,6 +22,18 @@ curl -X POST -H 'Content-Type: application/json' -d '{"hostname": "mock-bench-te
 ```
 *Expected Output:* `{"assigned_ssh_port":22000,"status":"registered"}`
 
+**Step 4:** Query the Registered Agents (The foundation for the CLI and Web Dashboard).
+```bash
+curl -s http://localhost:8080/api/v1/nodes
+```
+*Expected Output:* A JSON array containing the `mock-bench-test` node you just registered.
+
+**Step 5:** Simulate an Access Log (The foundation for tracking who connects to the bench).
+```bash
+curl -X POST -H 'Content-Type: application/json' -d '{"username": "aditya", "action": "cli_connect"}' http://localhost:8080/api/v1/nodes/mock-bench-test/access_log
+```
+*Expected Output:* `{"status":"logged"}`
+
 ---
 
 ## Phase 2: Testing the Node Agent

@@ -24,8 +24,8 @@ func initDatabase() {
 		log.Fatal("Failed to connect to postgres database:", err)
 	}
 
-	// Auto-migrate the Node schema
-	err = db.AutoMigrate(&models.Node{})
+	// Auto-migrate the schemas
+	err = db.AutoMigrate(&models.Node{}, &models.AccessLog{})
 	if err != nil {
 		log.Fatal("Failed to auto migrate database schema:", err)
 	}
@@ -97,6 +97,25 @@ func main() {
 			"status":            "registered",
 			"assigned_ssh_port": node.AssignedSSHPort,
 		})
+	})
+
+	// Log access to a specific node
+	api.Post("/nodes/:id/access_log", func(c *fiber.Ctx) error {
+		nodeID := c.Params("id")
+		var req models.AccessLogRequest
+		if err := c.BodyParser(&req); err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "Invalid request payload"})
+		}
+
+		logEntry := models.AccessLog{
+			NodeID:    nodeID,
+			Username:  req.Username,
+			Action:    req.Action,
+			Timestamp: time.Now(),
+		}
+		db.Create(&logEntry)
+
+		return c.Status(201).JSON(fiber.Map{"status": "logged"})
 	})
 
 	// 4. Start Server

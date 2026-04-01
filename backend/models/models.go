@@ -19,3 +19,17 @@ type Node struct {
 type RegisterRequest struct {
 	Hostname string `json:"hostname"`
 }
+
+// AccessLog tracks which users connected to which benches
+type AccessLog struct {
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	NodeID    string    `json:"node_id"`
+	Username  string    `json:"username"`
+	Action    string    `json:"action"` // e.g., "connect", "power-cycle"
+	Timestamp time.Time `json:"timestamp"`
+}
+
+type AccessLogRequest struct {
+	Username string `json:"username"`
+	Action   string `json:"action"`
+}

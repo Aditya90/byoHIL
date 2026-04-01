@@ -20,9 +20,11 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 - [x] **1.2 Go Server Initialization**
   - [x] Run `go mod init backend`.
   - [x] Setup a fast web framework (e.g., Fiber or Gin) and Postgres driver (`gorm`).
-  - [x] Implement the Database Models (`Node`, `PortAssignment`).
+  - [x] Implement the Database Models (`Node`, `PortAssignment`, `AccessLog`).
   - [x] Create `/api/v1/nodes/register` endpoint (handles MAC address and capability payloads).
-  - [x] **Test/Milestone:** Send a manual JSON payload via `curl` to the registration endpoint. Query Postgres to verify the data was saved and an SSH port was uniquely assigned.
+  - [x] Create `/api/v1/nodes` (GET) endpoint to query live machines.
+  - [x] Create `/api/v1/nodes/:id/access_log` endpoint to track CLI usage.
+  - [x] **Test/Milestone:** Send a manual JSON payload via `curl` to the registration endpoint. Query Postgres to verify the data was saved and an SSH port was uniquely assigned. Send a request to the `access_log` endpoint to verify auditing works.
 
 ## Phase 2: Python Agent & Connectivity
 *Goal: Connect a physical node to the central registry and establish the reverse tunnel.*

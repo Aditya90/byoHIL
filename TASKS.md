@@ -56,10 +56,10 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 ## Phase 4: Web Dashboard
 *Goal: Provide a bird's eye visual representation of all active benches.*
 
-- [ ] **4.1 React Foundation**
-  - [ ] Initialize Next.js / TypeScript project with TailwindCSS.
-  - [ ] Build a component grid representing "Active", "In-Use", and "Offline" nodes.
-  - [ ] **Test/Milestone:** Navigate to `localhost:3000` inside your browser. Verify the React grid populates with the same live DB data as `hilcli list`.
+- [x] **4.1 React Foundation**
+  - [x] Initialize Next.js / TypeScript project with TailwindCSS.
+  - [x] Build a component grid representing "Active", "In-Use", and "Offline" nodes.
+  - [x] **Test/Milestone:** Navigate to `localhost:3000` inside your browser. Verify the React grid populates with the same live DB data as `hilcli list`.
 
 - [ ] **4.2 Real-Time Updates**
   - [ ] Add WebSockets from the Go Server to the React frontend.

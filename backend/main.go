@@ -8,6 +8,7 @@ import (
 	"backend/models"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -38,6 +39,7 @@ func main() {
 
 	// 2. Setup Fiber
 	app := fiber.New()
+	app.Use(cors.New())
 	app.Use(logger.New())
 
 	// 3. API Routes

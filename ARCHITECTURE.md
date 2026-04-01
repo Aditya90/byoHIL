@@ -59,7 +59,7 @@ The web server acts as the central hub for all testing nodes, aggregating their 
 *   **Backend Framework**: **Go (Golang)**. Handles high concurrency (thousands of simultaneous WebSocket streams) effortlessly, uses minimal resources, and compiles into a single deployable binary.
 *   **Database**: **PostgreSQL**. A robust relational database to store node metadata, assignment status, test history, power configurations, and reverse SSH port assignments.
 *   **Real-time Broker**: **WebSockets**. Used to stream real-time telemetry (online/offline status, current power draw, test progress logs) directly from the nodes to the web client.
-*   **Web Interface (Frontend)**: **Next.js (React)**. A Single-Page Application (SPA) providing a comprehensive, real-time dashboard of all test benches and their states.
+*   **Web Interface (Frontend)**: **Next.js (React)**. A Single-Page Application (SPA) providing a comprehensive dashboard of all test benches and their states. It dynamically polls the API (to be upgraded to true event-driven WebSockets in future iterations) and abstracts all port mapping and registry tracking into visual status cards.
 
 ### 2. HIL Bench Node Agent (Data Plane)
 On each Linux machine connected to a DUT, a lightweight background service runs.

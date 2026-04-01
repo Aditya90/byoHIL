@@ -86,3 +86,23 @@ If your Python mock agent is still running and listening from Phase 2, try to us
 ./hilcli connect mock-bench-phase2
 ```
 > **Note:** Just like the Phase 2 Testing, this will proxy-jump through your `localhost` back into yourself. Once inside the remote terminal, type `exit` to end the test session!
+
+---
+
+## Phase 4: Testing the Web Dashboard
+
+The UI provides a unified visual control center for all geographically distributed nodes routing through the Go Central API.
+
+**Step 1:** In a new terminal tab, launch the Next.js React app.
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+**Step 2:**
+Navigate your web browser to `http://localhost:3000`.
+
+*Expected Output:* You should immediately see the "ByoHIL Control Center" interface. Any nodes actively registered (like `mock-bench-phase2`) will appear as visual cards dynamically pulling their `assigned_ssh_port` and pulse health directly from the Go API.
+
+> Note: If the dashboard loads on your LAN network (e.g., from a phone or tablet checking `192.168.x.x:3000`), the Next.js API configuration will automatically and seamlessly map back to your proxy host!

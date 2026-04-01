@@ -1,0 +1,37 @@
+# Standard Gitignore for the HIL project
+
+# Binaries & Tooling
+backend/backend
+cli/hilcli
+*.exe
+*.o
+*.so
+
+# Environments
+.env
+.DS_Store
+
+# Temporary files
+/tmp/
+
+# Documentation source / Scratch files
+prompts.md
+demos/*.mov
+
+# Go
+backend/vendor/
+backend/go.sum
+cli/go.sum
+
+# Frontend / Node.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/npm-debug.log*
+
+# Python
+agent/venv/
+agent/__pycache__/
+*.py[cod]
+*$py.class

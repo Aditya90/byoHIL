@@ -66,9 +66,17 @@ This document tracks the phased implementation of the HIL Infrastructure. It inc
 ## 🚀 Future Features & Post-MVP Roadmap
 
 - [ ] **Real-Time WebSocket Updates & Agent Heartbeats**
-  - Modify the Python Agent to transmit a live HTTP heartbeat pulse every 5 seconds.
-  - Implement a persistent Go `goroutine` sweeper that automatically flips decaying nodes to an "offline" status.
-  - Upgrade the React Dashboard polling loop into a true bidirectional WebSocket pipeline ensuring sub-millisecond UI updates.
+  - **Python Node Agent**
+    - Import `threading` and create a `daemon` thread.
+    - Loop an HTTP `requests.post` to `/api/v1/nodes/{hostname}/heartbeat` every 5 seconds.
+  - **Go Central Server**
+    - Implement `POST /api/v1/nodes/:id/heartbeat` to dynamically update the `LastSeenAt` DB column.
+    - Import `github.com/gofiber/websocket/v2` to maintain a persistent pool of browser clients at `/ws/nodes`.
+    - Spawn a background `goroutine` (Status Sweeper) checking Postgres every 5 seconds. If `LastSeenAt` is > 15s old, update `Status` to "offline" and broadcast the new DB array through the socket hub.
+  - **Next.js React Frontend**
+    - Rip out `fetch()` and `setInterval` HTTP polling logic in `page.tsx`.
+    - Introduce an auto-reconnecting `new WebSocket(...)` bound directly to the Fiber API.
+    - Bind `ws.onmessage` to immediately fire `setNodes(JSON.parse(event.data))` for true sub-millisecond UI frame updates.
 
 - [ ] **Power Control & Hardware Relays**
   - *Goal: Enable remote hardware reset functionality triggered globally.*
